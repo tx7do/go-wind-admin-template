@@ -1,0 +1,39 @@
+server:
+  rest:
+    addr: ":7788"
+    timeout: 10s
+    enable_swagger: true
+    enable_pprof: true
+    cors:
+      headers:
+        - "X-Requested-With"
+        - "Content-Type"
+        - "Authorization"
+      methods:
+        - "GET"
+        - "POST"
+        - "PUT"
+        - "DELETE"
+        - "HEAD"
+        - "OPTIONS"
+      origins:
+        - "*"
+    middleware:
+      enable_logging: true
+      enable_recovery: true
+      enable_tracing: true
+      enable_validate: true
+      enable_circuit_breaker: true
+      enable_metadata: true
+      auth:
+        method: "HS256"
+        key: "some_api_key"
+        access_token_expires: 0s
+        refresh_token_expires: 0s
+        access_token_key_prefix: "uat_"
+        refresh_token_key_prefix: "urt_"
+
+  grpc:
+    addr: ":8899"
+    timeout: 10s
+    middleware:
