@@ -19,13 +19,13 @@ require (
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.14
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.21
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
-	google.golang.org/genproto/googleapis/api v0.0.0-20251202230838-ff82c1b0f217
+	google.golang.org/genproto/googleapis/api v0.0.0-20251213004720-97cd9d5aeac2
 	google.golang.org/grpc v1.77.0
 	google.golang.org/protobuf v1.36.11
 )
 
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20251209175733-2a1774d88802.1 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20251209175733-2a1774d88802.1 // indirect
 	buf.build/go/protovalidate v1.1.0 // indirect
 	cel.dev/expr v0.25.1 // indirect
 	dario.cat/mergo v1.0.2 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
-	github.com/clipperhouse/displaywidth v0.6.1 // indirect
+	github.com/clipperhouse/displaywidth v0.6.2 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
@@ -75,10 +75,10 @@ require (
 	github.com/go-chassis/openlog v1.1.3 // indirect
 	github.com/go-chassis/sc-client v0.7.0 // indirect
 	github.com/go-kratos/aegis v0.2.0 // indirect
-	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20251210142144-909e176da670 // indirect
-	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20251210142144-909e176da670 // indirect
-	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20251210142144-909e176da670 // indirect
-	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20251210142144-909e176da670 // indirect
+	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20251215122814-c6fa6777e728 // indirect
+	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20251215122814-c6fa6777e728 // indirect
+	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20251215122814-c6fa6777e728 // indirect
+	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20251215122814-c6fa6777e728 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
@@ -204,7 +204,7 @@ require (
 	golang.org/x/text v0.32.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	golang.org/x/tools v0.40.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
