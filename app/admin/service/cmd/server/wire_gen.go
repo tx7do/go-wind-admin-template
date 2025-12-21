@@ -8,12 +8,10 @@ package main
 
 import (
 	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/tx7do/go-wind-admin-template/app/admin/service/internal/data"
 	"github.com/tx7do/go-wind-admin-template/app/admin/service/internal/server"
 	"github.com/tx7do/go-wind-admin-template/app/admin/service/internal/service"
-	"github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 )
 
 // Injectors from wire.go:
@@ -22,25 +20,23 @@ import (
 // initApp initializes the Wire provider entry for the kratos application.
 //
 // 参数 / Parameters:
-//   - logger: 日志记录器 (log.Logger) / logger (log.Logger)
-//   - registrar: 服务注册器 (registry.Registrar) / registrar (registry.Registrar)
-//   - cfg: 引导配置 (*conf.Bootstrap) / cfg (*conf.Bootstrap)
+//   - *bootstrap.Context: 引导上下文 / *bootstrap.Context: bootstrap context
 //
 // 返回 / Returns:
 //   - *kratos.App: 已构建的应用实例 / *kratos.App: constructed application instance
 //   - func(): 应用关闭时的清理函数 / func(): cleanup function to run on shutdown
 //   - error: 构建过程中可能发生的错误 / error: possible construction error
-func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Bootstrap) (*kratos.App, func(), error) {
-	client := data.NewRedisClient(bootstrap, logger)
-	dataData, cleanup, err := data.NewData(logger, client)
+func initApp(context *bootstrap.Context) (*kratos.App, func(), error) {
+	client := data.NewRedisClient(context)
+	dataData, cleanup, err := data.NewData(context, client)
 	if err != nil {
 		return nil, nil, err
 	}
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterService := service.NewGreeterService(greeterRepo)
-	httpServer := server.NewRESTServer(bootstrap, logger, greeterService)
-	grpcServer := server.NewGRPCServer(bootstrap, logger, greeterService)
-	app := newApp(logger, registrar, httpServer, grpcServer)
+	greeterRepo := data.NewGreeterRepo(context, dataData)
+	greeterService := service.NewGreeterService(context, greeterRepo)
+	httpServer := server.NewRestServer(context, greeterService)
+	grpcServer := server.NewGrpcServer(context, greeterService)
+	app := newApp(context, httpServer, grpcServer)
 	return app, func() {
 		cleanup()
 	}, nil

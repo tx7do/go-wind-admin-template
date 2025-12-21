@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
+
 	helloworldV1 "github.com/tx7do/go-wind-admin-template/api/gen/go/helloworld/service/v1"
 )
 
@@ -13,10 +15,10 @@ type GreeterRepo struct {
 }
 
 // NewGreeterRepo .
-func NewGreeterRepo(data *Data, logger log.Logger) *GreeterRepo {
+func NewGreeterRepo(ctx *bootstrap.Context, data *Data) *GreeterRepo {
 	return &GreeterRepo{
 		data: data,
-		log:  log.NewHelper(logger),
+		log:  ctx.NewLoggerHelper("greeter/repo/admin-service"),
 	}
 }
 

@@ -18,6 +18,6 @@ import (
 
 // ProviderSet is the Wire provider set for data layer.
 var ProviderSet = wire.NewSet(
-	server.NewRESTServer,
-	server.NewGRPCServer,
+	server.NewRestServer,
+	server.NewGrpcServer,
 )

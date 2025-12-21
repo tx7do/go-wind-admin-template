@@ -3,6 +3,8 @@ package data
 import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/redis/go-redis/v9"
+
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 )
 
 // Data .
@@ -14,23 +16,21 @@ type Data struct {
 
 // NewData .
 func NewData(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	rdb *redis.Client,
 ) (*Data, func(), error) {
-	l := log.NewHelper(log.With(logger, "module", "data/admin-service"))
-
 	d := &Data{
-		log: l,
+		log: ctx.NewLoggerHelper("data/admin-service"),
 
 		rdb: rdb,
 	}
 
 	return d, func() {
-		l.Info("closing the data resources")
+		d.log.Info("closing the data resources")
 
 		if d.rdb != nil {
 			if err := d.rdb.Close(); err != nil {
-				l.Error(err)
+				d.log.Error(err)
 			}
 		}
 	}, nil

@@ -1,5 +1,7 @@
 package service
 
 const (
-	AdminService = "goWind-admin-gateway"
+	Project = "go-wind"
+
+	AdminService = "admin-gateway"
 )
