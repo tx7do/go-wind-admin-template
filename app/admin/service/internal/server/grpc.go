@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 
@@ -12,9 +13,20 @@ import (
 	helloworldV1 "github.com/tx7do/go-wind-admin-template/api/gen/go/helloworld/service/v1"
 )
 
+type GrpcMiddlewares []middleware.Middleware
+
+func NewGrpcMiddleware(ctx *bootstrap.Context) GrpcMiddlewares {
+	var ms []middleware.Middleware
+	ms = append(ms, logging.Server(ctx.GetLogger()))
+	return ms
+}
+
 // NewGrpcServer new a gRPC server.
 func NewGrpcServer(
 	ctx *bootstrap.Context,
+
+	middlewares GrpcMiddlewares,
+
 	greeterService *service.GreeterService,
 ) *grpc.Server {
 	cfg := ctx.GetConfig()
@@ -23,7 +35,7 @@ func NewGrpcServer(
 		return nil
 	}
 
-	srv, err := rpc.CreateGrpcServer(cfg, logging.Server(ctx.GetLogger()))
+	srv, err := rpc.CreateGrpcServer(cfg, middlewares...)
 	if err != nil {
 		panic(err)
 	}

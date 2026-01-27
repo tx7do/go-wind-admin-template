@@ -27,17 +27,13 @@ import (
 //   - func(): 应用关闭时的清理函数 / func(): cleanup function to run on shutdown
 //   - error: 构建过程中可能发生的错误 / error: possible construction error
 func initApp(context *bootstrap.Context) (*kratos.App, func(), error) {
-	client := data.NewRedisClient(context)
-	dataData, cleanup, err := data.NewData(context, client)
-	if err != nil {
-		return nil, nil, err
-	}
-	greeterRepo := data.NewGreeterRepo(context, dataData)
+	restMiddlewares := server.NewRestMiddleware(context)
+	greeterRepo := data.NewGreeterRepo(context)
 	greeterService := service.NewGreeterService(context, greeterRepo)
-	httpServer := server.NewRestServer(context, greeterService)
-	grpcServer := server.NewGrpcServer(context, greeterService)
+	httpServer := server.NewRestServer(context, restMiddlewares, greeterService)
+	grpcMiddlewares := server.NewGrpcMiddleware(context)
+	grpcServer := server.NewGrpcServer(context, grpcMiddlewares, greeterService)
 	app := newApp(context, httpServer, grpcServer)
 	return app, func() {
-		cleanup()
 	}, nil
 }

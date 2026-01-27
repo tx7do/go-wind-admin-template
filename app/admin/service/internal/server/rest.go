@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/transport/http"
@@ -17,12 +16,14 @@ import (
 	adminV1 "github.com/tx7do/go-wind-admin-template/api/gen/go/admin/service/v1"
 )
 
-// NewMiddleware 创建中间件
-func newRestMiddleware(
-	logger log.Logger,
-) []middleware.Middleware {
+type RestMiddlewares []middleware.Middleware
+
+// NewRestMiddleware 创建中间件
+func NewRestMiddleware(
+	ctx *bootstrap.Context,
+) RestMiddlewares {
 	var ms []middleware.Middleware
-	ms = append(ms, logging.Server(logger))
+	ms = append(ms, logging.Server(ctx.GetLogger()))
 
 	return ms
 }
@@ -30,6 +31,9 @@ func newRestMiddleware(
 // NewRestServer new an REST server.
 func NewRestServer(
 	ctx *bootstrap.Context,
+
+	middlewares RestMiddlewares,
+
 	greeterService *service.GreeterService,
 ) *http.Server {
 	cfg := ctx.GetConfig()
@@ -38,9 +42,7 @@ func NewRestServer(
 		return nil
 	}
 
-	srv, err := rpc.CreateRestServer(cfg,
-		newRestMiddleware(ctx.GetLogger())...,
-	)
+	srv, err := rpc.CreateRestServer(cfg, middlewares...)
 	if err != nil {
 		panic(err)
 	}

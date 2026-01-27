@@ -10,15 +10,13 @@ import (
 )
 
 type GreeterRepo struct {
-	data *Data
-	log  *log.Helper
+	log *log.Helper
 }
 
 // NewGreeterRepo .
-func NewGreeterRepo(ctx *bootstrap.Context, data *Data) *GreeterRepo {
+func NewGreeterRepo(ctx *bootstrap.Context) *GreeterRepo {
 	return &GreeterRepo{
-		data: data,
-		log:  ctx.NewLoggerHelper("greeter/repo/admin-service"),
+		log: ctx.NewLoggerHelper("greeter/repo/admin-service"),
 	}
 }
 
