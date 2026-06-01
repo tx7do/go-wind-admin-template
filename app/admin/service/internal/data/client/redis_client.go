@@ -1,4 +1,4 @@
-package data
+package client
 
 import (
 	"github.com/redis/go-redis/v9"

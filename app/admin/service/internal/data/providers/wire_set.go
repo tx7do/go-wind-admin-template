@@ -12,13 +12,14 @@ package providers
 
 import (
 	"github.com/google/wire"
+	"github.com/tx7do/go-wind-admin-template/app/admin/service/internal/data/client"
 
 	"github.com/tx7do/go-wind-admin-template/app/admin/service/internal/data"
 )
 
 // ProviderSet is the Wire provider set for data layer.
 var ProviderSet = wire.NewSet(
-	data.NewRedisClient,
+	client.NewRedisClient,
 
 	data.NewGreeterRepo,
 )
