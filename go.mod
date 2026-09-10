@@ -5,7 +5,6 @@ go 1.25.4
 require (
 	github.com/go-kratos/kratos/v2 v2.9.2
 	github.com/google/gnostic v0.7.1
-	github.com/google/wire v0.7.0
 	github.com/menta2k/protoc-gen-redact/v3 v3.0.0-20260213125431-7688a38967d4
 	github.com/redis/go-redis/v9 v9.18.0
 	github.com/tx7do/kratos-bootstrap/api v0.0.40

@@ -15,7 +15,7 @@ ROOT_DIR	:= $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 SRCS_MK		:= $(foreach dir, app, $(wildcard $(dir)/*/*/Makefile))
 
-.PHONY: help wire gen ent build api openapi init all vendor dep test cover vet lint docker
+.PHONY: help gen ent build api openapi init all vendor dep test cover vet lint docker
 
 # show environment variables
 env:
@@ -79,13 +79,6 @@ vet:
 lint:
 	@golangci-lint run
 
-# generate wire code
-wire:
-	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
-      cd $(dir);\
-      make wire;\
-    )
-
 # generate ent code
 ent:
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
@@ -94,7 +87,7 @@ ent:
     )
 
 # generate code
-gen: ent wire api openapi
+gen: ent api openapi
 
 # generate protobuf api go code
 api:

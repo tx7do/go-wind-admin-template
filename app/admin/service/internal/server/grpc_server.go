@@ -28,6 +28,7 @@ func NewGrpcServer(
 	middlewares GrpcMiddlewares,
 
 	greeterService *service.GreeterService,
+	// register:param ── 新模块服务形参在此行后注册(make register 工具锚点,勿删)
 ) *grpc.Server {
 	cfg := ctx.GetConfig()
 
@@ -41,6 +42,8 @@ func NewGrpcServer(
 	}
 
 	helloworldV1.RegisterGreeterServer(srv, greeterService)
+
+	// register:route ── 新模块路由在此行后注册(make register 工具锚点,勿删)
 
 	return srv
 }

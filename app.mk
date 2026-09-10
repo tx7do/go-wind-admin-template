@@ -70,7 +70,7 @@ APP_RELATIVE_PATH	:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` &
 SERVICE_NAME		:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b)
 APP_NAME			:= $(shell echo $(APP_RELATIVE_PATH) | sed -En "s/\//-/p")
 
-.PHONY: build clean docker gen ent wire api openapi run app help
+.PHONY: build clean docker gen ent api openapi run app help
 
 # show environment variables
 env:
@@ -100,7 +100,7 @@ run: api openapi
 	-@go run $(GOFLAGS) -ldflags "$(LDFLAGS)" ./cmd/server -c ./configs
 
 # build service app
-app: api openapi wire ent build
+app: api openapi ent build
 
 # clean build files
 clean:
@@ -108,7 +108,7 @@ clean:
 	$(if $(IS_WINDOWS), del "coverage.out", rm -f "coverage.out")
 
 # generate code
-gen: ent wire api openapi
+gen: ent api openapi
 
 # generate ent code, if ent schema exist in the project's internal/data/ent folder
 ent:
@@ -121,43 +121,3 @@ ifneq ("$(wildcard ./internal/data/ent)","")
 				--feature sql/lock \
 				./internal/data/ent/schema
 endif
-
-# generate wire code
-wire:
-	@go run -mod=mod github.com/google/wire/cmd/wire ./cmd/server
-
-# generate protobuf api go code
-api:
-	@cd ../../../api && \
-	buf generate
-
-# generate protobuf api OpenAPI v3 docs
-openapi:
-	@cd ../../../api && \
-	buf generate --template buf.admin.openapi.gen.yaml
-
-# build docker image
-docker:
-	@docker build -t $(PROJECT_NAME)/$(APP_NAME) \
-				  --build-arg SERVICE_NAME=$(SERVICE_NAME) \
-				  --build-arg APP_VERSION=$(APP_VERSION) \
-				  -f ../../../Dockerfile ../../../
-
-# show help
-help:
-	@echo ""
-	@echo "Usage:"
-	@echo " make [target]"
-	@echo ""
-	@echo "Targets:"
-	@awk '/^[a-zA-Z\-_0-9]+:/ { \
-	helpMessage = match(lastLine, /^# (.*)/); \
-		if (helpMessage) { \
-			helpCommand = substr($$1, 0, index($$1, ":")-1); \
-			helpMessage = substr(lastLine, RSTART + 2, RLENGTH); \
-			printf "\033[36m%-22s\033[0m %s\n", helpCommand,helpMessage; \
-		} \
-	} \
-	{ lastLine = $$0 }' $(MAKEFILE_LIST)
-
-.DEFAULT_GOAL := help

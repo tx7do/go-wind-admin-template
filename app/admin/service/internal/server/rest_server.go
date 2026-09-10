@@ -35,6 +35,7 @@ func NewRestServer(
 	middlewares RestMiddlewares,
 
 	greeterService *service.GreeterService,
+	// register:param ── 新模块服务形参在此行后注册(make register 工具锚点,勿删)
 ) *http.Server {
 	cfg := ctx.GetConfig()
 
@@ -56,6 +57,8 @@ func NewRestServer(
 	}
 
 	adminV1.RegisterGreeterHTTPServer(srv, greeterService)
+
+	// register:route ── 新模块路由在此行后注册(make register 工具锚点,勿删)
 
 	return srv
 }
