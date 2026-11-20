@@ -48,6 +48,10 @@ func NewRestServer(
 		panic(err)
 	}
 
+	// 全站请求体护栏包在最外层（路由都在其内层），
+	// 使 413 的判定发生在任何 body 读取之前。模板无认证体系，仅总量上限。
+	srv.Handler = requestBodyGuard()(srv.Handler)
+
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(
 			srv,
